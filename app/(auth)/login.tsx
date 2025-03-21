@@ -68,11 +68,22 @@ export default function Login() {
         colors={["#03071E", "#370617", "#6A040F"]}
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 1 }}
-        className="flex-1 gradient-primary"
+        className="flex-1"
       >
         <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
           <View className="flex-1 justify-center p-6">
-            <View className="p-6 rounded-2xl glass">
+            <View
+              className="p-6 rounded-2xl bg-dark-blue bg-opacity-40"
+              style={{
+                shadowColor: "#000",
+                shadowOffset: { width: 0, height: 10 },
+                shadowOpacity: 0.3,
+                shadowRadius: 15,
+                elevation: 10,
+                borderWidth: 1,
+                borderColor: "rgba(255, 255, 255, 0.1)",
+              }}
+            >
               <View className="mb-8 items-center">
                 <Text className="text-3xl font-rubik-bold text-yellow mb-2">
                   Movie App

@@ -3,106 +3,107 @@
 @tailwind utilities;
 
 @layer base {
-  html, body {
-    font-family: 'Rubik-Regular', sans-serif;
+  html,
+  body {
+    font-family: "Rubik-Regular", sans-serif;
   }
 }
 
 @layer utilities {
   /* Color Theme */
   .text-dark-blue {
-    color: #03071E;
+    color: #03071e;
   }
   .text-dark-purple {
     color: #370617;
   }
   .text-dark-red {
-    color: #6A040F;
+    color: #6a040f;
   }
   .text-red {
-    color: #9D0208;
+    color: #9d0208;
   }
   .text-bright-red {
-    color: #D00000;
+    color: #d00000;
   }
   .text-orange-red {
-    color: #DC2F02;
+    color: #dc2f02;
   }
   .text-orange {
-    color: #E85D04;
+    color: #e85d04;
   }
   .text-light-orange {
-    color: #F48C06;
+    color: #f48c06;
   }
   .text-gold {
-    color: #FAA307;
+    color: #faa307;
   }
   .text-yellow {
-    color: #FFBA08;
+    color: #ffba08;
   }
 
   /* Background Colors */
   .bg-dark-blue {
-    background-color: #03071E;
+    background-color: #03071e;
   }
   .bg-dark-purple {
     background-color: #370617;
   }
   .bg-dark-red {
-    background-color: #6A040F;
+    background-color: #6a040f;
   }
   .bg-red {
-    background-color: #9D0208;
+    background-color: #9d0208;
   }
   .bg-bright-red {
-    background-color: #D00000;
+    background-color: #d00000;
   }
   .bg-orange-red {
-    background-color: #DC2F02;
+    background-color: #dc2f02;
   }
   .bg-orange {
-    background-color: #E85D04;
+    background-color: #e85d04;
   }
   .bg-light-orange {
-    background-color: #F48C06;
+    background-color: #f48c06;
   }
   .bg-gold {
-    background-color: #FAA307;
+    background-color: #faa307;
   }
   .bg-yellow {
-    background-color: #FFBA08;
+    background-color: #ffba08;
   }
 
   /* Border Colors */
   .border-dark-blue {
-    border-color: #03071E;
+    border-color: #03071e;
   }
   .border-dark-purple {
     border-color: #370617;
   }
   .border-dark-red {
-    border-color: #6A040F;
+    border-color: #6a040f;
   }
   .border-red {
-    border-color: #9D0208;
+    border-color: #9d0208;
   }
   .border-bright-red {
-    border-color: #D00000;
+    border-color: #d00000;
   }
   .border-orange-red {
-    border-color: #DC2F02;
+    border-color: #dc2f02;
   }
   .border-orange {
-    border-color: #E85D04;
+    border-color: #e85d04;
   }
   .border-light-orange {
-    border-color: #F48C06;
+    border-color: #f48c06;
   }
   .border-gold {
-    border-color: #FAA307;
+    border-color: #faa307;
   }
   .border-yellow {
-    border-color: #FFBA08;
+    border-color: #ffba08;
   }
 
   /* Glassmorphism */
@@ -115,14 +116,14 @@
 
   /* Gradients */
   .gradient-primary {
-    background: linear-gradient(135deg, #03071E, #370617, #6A040F);
+    background: linear-gradient(135deg, #03071e, #370617, #6a040f);
   }
-  
+
   .gradient-secondary {
-    background: linear-gradient(135deg, #9D0208, #DC2F02, #E85D04);
+    background: linear-gradient(135deg, #9d0208, #dc2f02, #e85d04);
   }
-  
+
   .gradient-accent {
-    background: linear-gradient(135deg, #F48C06, #FAA307, #FFBA08);
+    background: linear-gradient(135deg, #f48c06, #faa307, #ffba08);
   }
 }
