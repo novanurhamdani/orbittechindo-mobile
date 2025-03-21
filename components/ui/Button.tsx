@@ -21,6 +21,7 @@ export default function Button({
   variant = "primary",
   fullWidth = false,
   className = "",
+  onPress,
   ...rest
 }: ButtonProps) {
   // Define styles based on variant
@@ -29,20 +30,20 @@ export default function Button({
     
     switch (variant) {
       case "primary":
-        return "bg-blue-600";
+        return "bg-[#E85D04]";
       case "secondary":
-        return "bg-gray-600";
+        return "bg-[#370617]";
       case "outline":
         return "bg-transparent";
       default:
-        return "bg-blue-600";
+        return "bg-[#E85D04]";
     }
   };
 
   const getTextColor = () => {
     switch (variant) {
       case "outline":
-        return "text-blue-600";
+        return "text-[#F48C06]";
       default:
         return "text-white";
     }
@@ -51,10 +52,16 @@ export default function Button({
   const getBorderStyle = () => {
     switch (variant) {
       case "outline":
-        return "border border-blue-600";
+        return "border border-[#F48C06]";
       default:
         return "";
     }
+  };
+
+  // Improved press handler to prevent double press
+  const handlePress = (e: any) => {
+    if (loading || rest.disabled) return;
+    if (onPress) onPress(e);
   };
 
   return (
@@ -63,17 +70,29 @@ export default function Button({
         fullWidth ? "w-full" : ""
       } ${className}`}
       disabled={loading || rest.disabled}
+      onPress={handlePress}
+      activeOpacity={0.7}
       {...rest}
+      style={[
+        {
+          shadowColor: "#000",
+          shadowOffset: { width: 0, height: 4 },
+          shadowOpacity: 0.3,
+          shadowRadius: 4,
+          elevation: 5,
+        },
+        rest.style,
+      ]}
     >
       <View className="flex-row justify-center items-center">
         {loading ? (
           <ActivityIndicator
             size="small"
-            color={variant === "outline" ? "#2563eb" : "white"}
+            color={variant === "outline" ? "#F48C06" : "white"}
           />
         ) : (
           <Text
-            className={`font-semibold text-center ${getTextColor()}`}
+            className={`font-rubik-semibold text-center ${getTextColor()}`}
           >
             {title}
           </Text>

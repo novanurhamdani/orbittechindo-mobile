@@ -34,6 +34,8 @@ export default function Login() {
   });
 
   const onSubmit = async (data: LoginFormData) => {
+    if (loading) return;
+
     setLoading(true);
     setError(null);
 
@@ -46,7 +48,7 @@ export default function Login() {
       if (success) {
         router.replace("/");
       } else {
-        setError("Invalid email or password");
+        setError("Invalid email or password. Please try again.");
       }
     } catch (err) {
       console.error("Login error:", err);
@@ -62,55 +64,70 @@ export default function Login() {
       className="flex-1"
     >
       <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-        <View className="flex-1 justify-center p-6 bg-white">
-          <View className="mb-8">
-            <Text className="text-3xl font-bold text-center text-blue-600 mb-2">
-              Movie App
-            </Text>
-            <Text className="text-lg text-center text-gray-600">
-              Sign in to your account
-            </Text>
-          </View>
-
-          {error && (
-            <View className="bg-red-100 p-3 rounded-lg mb-4">
-              <Text className="text-red-600">{error}</Text>
+        <View className="flex-1 justify-center p-6">
+          <View
+            className="p-6 rounded-2xl bg-[#03071E] bg-opacity-40 backdrop-blur-lg"
+            style={{
+              shadowColor: "#000",
+              shadowOffset: { width: 0, height: 10 },
+              shadowOpacity: 0.3,
+              shadowRadius: 15,
+              elevation: 10,
+              borderWidth: 1,
+              borderColor: "rgba(255, 255, 255, 0.1)",
+            }}
+          >
+            <View className="mb-8 items-center">
+              <Text className="text-3xl font-rubik-bold text-[#FFBA08] mb-2">
+                Movie App
+              </Text>
+              <Text className="text-lg font-rubik-medium text-[#F48C06]">
+                Sign in to your account
+              </Text>
             </View>
-          )}
 
-          <Input
-            name="email"
-            control={control}
-            label="Email"
-            placeholder="Enter your email"
-            keyboardType="email-address"
-            autoCapitalize="none"
-            error={errors.email?.message}
-          />
+            {error && (
+              <View className="bg-[#9D0208] bg-opacity-30 p-3 rounded-lg mb-4">
+                <Text className="text-white font-rubik">{error}</Text>
+              </View>
+            )}
 
-          <Input
-            name="password"
-            control={control}
-            label="Password"
-            placeholder="Enter your password"
-            secureTextEntry
-            error={errors.password?.message}
-          />
+            <Input
+              name="email"
+              control={control}
+              label="Email"
+              placeholder="Enter your email"
+              keyboardType="email-address"
+              autoCapitalize="none"
+            />
 
-          <Button
-            title="Sign In"
-            onPress={handleSubmit(onSubmit)}
-            loading={loading}
-            disabled={loading}
-            fullWidth
-            className="mt-2"
-          />
+            <Input
+              name="password"
+              control={control}
+              label="Password"
+              placeholder="Enter your password"
+              secureTextEntry
+            />
 
-          <View className="flex-row justify-center mt-6">
-            <Text className="text-gray-600">Don't have an account? </Text>
-            <TouchableOpacity onPress={() => router.push("/register")}>
-              <Text className="text-blue-600 font-semibold">Register</Text>
-            </TouchableOpacity>
+            <Button
+              title="Sign In"
+              onPress={handleSubmit(onSubmit)}
+              loading={loading}
+              disabled={loading}
+              fullWidth
+              className="mt-2"
+            />
+
+            <View className="flex-row justify-center mt-6">
+              <Text className="text-[#F48C06] font-rubik">
+                Don't have an account?{" "}
+              </Text>
+              <TouchableOpacity onPress={() => router.push("/register")}>
+                <Text className="text-[#FFBA08] font-rubik-semibold">
+                  Sign Up
+                </Text>
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
       </ScrollView>
