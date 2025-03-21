@@ -106,7 +106,7 @@ export default function Login() {
               control={control}
               label="Password"
               placeholder="Enter your password"
-              secureTextEntry
+              isPassword={true}
             />
 
             <Button

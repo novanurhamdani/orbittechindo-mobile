@@ -118,7 +118,7 @@ export default function Register() {
               control={control}
               label="Password"
               placeholder="Create a password"
-              secureTextEntry
+              isPassword={true}
             />
 
             <Input
