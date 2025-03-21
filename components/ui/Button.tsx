@@ -30,20 +30,20 @@ export default function Button({
     
     switch (variant) {
       case "primary":
-        return "bg-[#E85D04]";
+        return "bg-orange";
       case "secondary":
-        return "bg-[#370617]";
+        return "bg-dark-purple";
       case "outline":
         return "bg-transparent";
       default:
-        return "bg-[#E85D04]";
+        return "bg-orange";
     }
   };
 
   const getTextColor = () => {
     switch (variant) {
       case "outline":
-        return "text-[#F48C06]";
+        return "text-light-orange";
       default:
         return "text-white";
     }
@@ -52,7 +52,7 @@ export default function Button({
   const getBorderStyle = () => {
     switch (variant) {
       case "outline":
-        return "border border-[#F48C06]";
+        return "border border-light-orange";
       default:
         return "";
     }

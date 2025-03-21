@@ -28,7 +28,7 @@ export default function Input<T extends FieldValues>({
 
   return (
     <View className="mb-4">
-      {label && <Text className="text-[#FAA307] mb-2 font-rubik-medium">{label}</Text>}
+      {label && <Text className="text-gold mb-2 font-rubik-medium">{label}</Text>}
       <Controller
         control={control}
         name={name}
@@ -37,8 +37,8 @@ export default function Input<T extends FieldValues>({
             <View className="relative">
               <TextInput
                 className={`border rounded-lg p-3 ${
-                  error ? "border-[#D00000]" : "border-[#370617] border-opacity-30"
-                } bg-[#03071E] bg-opacity-50 text-white backdrop-blur-md font-rubik ${
+                  error ? "border-bright-red" : "border-dark-purple border-opacity-30"
+                } bg-dark-blue bg-opacity-50 text-white backdrop-blur-md font-rubik ${
                   isPassword ? "pr-10" : ""
                 }`}
                 value={value}
@@ -70,7 +70,7 @@ export default function Input<T extends FieldValues>({
               )}
             </View>
             {error && (
-              <Text className="text-[#D00000] mt-1 font-rubik">{error.message}</Text>
+              <Text className="text-bright-red mt-1 font-rubik">{error.message}</Text>
             )}
           </>
         )}

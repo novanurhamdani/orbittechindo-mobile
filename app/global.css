@@ -7,3 +7,122 @@
     font-family: 'Rubik-Regular', sans-serif;
   }
 }
+
+@layer utilities {
+  /* Color Theme */
+  .text-dark-blue {
+    color: #03071E;
+  }
+  .text-dark-purple {
+    color: #370617;
+  }
+  .text-dark-red {
+    color: #6A040F;
+  }
+  .text-red {
+    color: #9D0208;
+  }
+  .text-bright-red {
+    color: #D00000;
+  }
+  .text-orange-red {
+    color: #DC2F02;
+  }
+  .text-orange {
+    color: #E85D04;
+  }
+  .text-light-orange {
+    color: #F48C06;
+  }
+  .text-gold {
+    color: #FAA307;
+  }
+  .text-yellow {
+    color: #FFBA08;
+  }
+
+  /* Background Colors */
+  .bg-dark-blue {
+    background-color: #03071E;
+  }
+  .bg-dark-purple {
+    background-color: #370617;
+  }
+  .bg-dark-red {
+    background-color: #6A040F;
+  }
+  .bg-red {
+    background-color: #9D0208;
+  }
+  .bg-bright-red {
+    background-color: #D00000;
+  }
+  .bg-orange-red {
+    background-color: #DC2F02;
+  }
+  .bg-orange {
+    background-color: #E85D04;
+  }
+  .bg-light-orange {
+    background-color: #F48C06;
+  }
+  .bg-gold {
+    background-color: #FAA307;
+  }
+  .bg-yellow {
+    background-color: #FFBA08;
+  }
+
+  /* Border Colors */
+  .border-dark-blue {
+    border-color: #03071E;
+  }
+  .border-dark-purple {
+    border-color: #370617;
+  }
+  .border-dark-red {
+    border-color: #6A040F;
+  }
+  .border-red {
+    border-color: #9D0208;
+  }
+  .border-bright-red {
+    border-color: #D00000;
+  }
+  .border-orange-red {
+    border-color: #DC2F02;
+  }
+  .border-orange {
+    border-color: #E85D04;
+  }
+  .border-light-orange {
+    border-color: #F48C06;
+  }
+  .border-gold {
+    border-color: #FAA307;
+  }
+  .border-yellow {
+    border-color: #FFBA08;
+  }
+
+  /* Glassmorphism */
+  .glass {
+    background-color: rgba(3, 7, 30, 0.4);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.3);
+  }
+
+  /* Gradients */
+  .gradient-primary {
+    background: linear-gradient(135deg, #03071E, #370617, #6A040F);
+  }
+  
+  .gradient-secondary {
+    background: linear-gradient(135deg, #9D0208, #DC2F02, #E85D04);
+  }
+  
+  .gradient-accent {
+    background: linear-gradient(135deg, #F48C06, #FAA307, #FFBA08);
+  }
+}
