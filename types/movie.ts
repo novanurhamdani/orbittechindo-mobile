@@ -40,10 +40,9 @@ export interface SearchResponse {
   Response: string;
 }
 
-export type MovieType = "movie" | "series" | "episode";
+export type MovieType = "movie" | "series" | "episode" | "All";
 
 export interface FilterOptions {
-  type: MovieType | "";
-  yearFrom: string;
-  yearTo: string;
+  type: string;
+  year: string;
 }

@@ -8,9 +8,10 @@ import {
   StyleSheet,
 } from "react-native";
 import { searchMovies } from "@/services/api";
-import { Movie } from "@/types/movie";
+import { FilterOptions, Movie } from "@/types/movie";
 import { useMovieStore } from "@/store/movieStore";
 import MovieCard from "./MovieCard";
+import MovieFilter from "./MovieFilter";
 
 export default function AllMovies({
   ListHeaderComponent,
@@ -27,6 +28,8 @@ export default function AllMovies({
     searchResults,
     totalResults,
     setSearchResults,
+    filterOptions,
+    setFilterOptions,
   } = useMovieStore();
 
   const fetchMovies = async (currentPage = 1, refresh = false) => {
@@ -38,7 +41,11 @@ export default function AllMovies({
         setRefreshing(true);
       }
 
-      const response = await searchMovies(searchTerm, currentPage);
+      const response = await searchMovies(
+        searchTerm,
+        currentPage,
+        filterOptions
+      );
 
       if (response.Response === "True") {
         if (refresh) {
@@ -66,7 +73,7 @@ export default function AllMovies({
 
   useEffect(() => {
     fetchMovies(1, true);
-  }, [searchTerm]);
+  }, [searchTerm, filterOptions]);
 
   const handleLoadMore = () => {
     if (loading) return;
@@ -80,6 +87,11 @@ export default function AllMovies({
   const handleRefresh = () => {
     setPage(1);
     fetchMovies(1, true);
+  };
+
+  const handleApplyFilters = (newFilters: FilterOptions) => {
+    setFilterOptions(newFilters);
+    setPage(1);
   };
 
   const renderFooter = () => {
@@ -108,6 +120,23 @@ export default function AllMovies({
     );
   };
 
+  const renderHeader = () => {
+    return (
+      <>
+        {ListHeaderComponent}
+        <View style={styles.filterContainer}>
+          <Text className="text-xl font-rubik-semibold text-white mb-4">
+            Latest Movies
+          </Text>
+          <MovieFilter
+            onApplyFilters={handleApplyFilters}
+            currentFilters={filterOptions}
+          />
+        </View>
+      </>
+    );
+  };
+
   return (
     <View style={styles.container}>
       <FlatList
@@ -120,7 +149,7 @@ export default function AllMovies({
         columnWrapperStyle={styles.columnWrapper}
         onEndReached={handleLoadMore}
         onEndReachedThreshold={0.5}
-        ListHeaderComponent={ListHeaderComponent}
+        ListHeaderComponent={renderHeader}
         ListFooterComponent={renderFooter}
         ListEmptyComponent={renderEmpty}
         onRefresh={handleRefresh}
@@ -173,5 +202,11 @@ const styles = StyleSheet.create({
   retryText: {
     color: "#FFFFFF",
     fontFamily: "Rubik-Medium",
+  },
+  filterContainer: {
+    marginBottom: 20,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
   },
 });

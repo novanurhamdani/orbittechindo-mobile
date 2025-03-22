@@ -29,9 +29,6 @@ export default function Index() {
 
               {/* Featured Movie */}
               <FeaturedMovie />
-              <Text className="text-xl font-rubik-semibold text-white mb-4">
-                Latest Movies
-              </Text>
             </View>
           }
         />

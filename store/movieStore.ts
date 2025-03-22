@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { FilterOptions, Movie, MovieDetail } from '../types/movie';
-import { DEFAULT_SEARCH, MAX_YEAR, MIN_YEAR } from '../constants/api';
+import { DEFAULT_SEARCH } from '../constants/api';
 
 interface MovieStore {
   searchTerm: string;
@@ -13,7 +13,7 @@ interface MovieStore {
   filterOptions: FilterOptions;
   
   setSearchTerm: (term: string) => void;
-  setSearchResults: (results: Movie[], totalResults: string) => void;
+  setSearchResults: (results: Movie[], totalResults: string | number) => void;
   setSelectedMovie: (movie: MovieDetail | null) => void;
   setLoading: (loading: boolean) => void;
   setError: (error: string | null) => void;
@@ -31,14 +31,16 @@ export const useMovieStore = create<MovieStore>((set) => ({
   error: null,
   page: 1,
   filterOptions: {
-    type: '',
-    yearFrom: MIN_YEAR.toString(),
-    yearTo: MAX_YEAR.toString(),
+    type: "All",
+    year: "All",
   },
   
   setSearchTerm: (term: string) => set({ searchTerm: term }),
-  setSearchResults: (results: Movie[], totalResults: string) => 
-    set({ searchResults: results, totalResults: parseInt(totalResults) || 0 }),
+  setSearchResults: (results: Movie[], totalResults: string | number) => 
+    set({ 
+      searchResults: results, 
+      totalResults: typeof totalResults === 'string' ? parseInt(totalResults) || 0 : totalResults 
+    }),
   setSelectedMovie: (movie: MovieDetail | null) => set({ selectedMovie: movie }),
   setLoading: (loading: boolean) => set({ loading }),
   setError: (error: string | null) => set({ error }),
@@ -49,9 +51,8 @@ export const useMovieStore = create<MovieStore>((set) => ({
     })),
   resetFilters: () => set({ 
     filterOptions: {
-      type: '',
-      yearFrom: MIN_YEAR.toString(),
-      yearTo: MAX_YEAR.toString(),
+      type: "All",
+      year: "All",
     }
   }),
 }));
