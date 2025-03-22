@@ -25,11 +25,14 @@ export const generateRatingData = (movie: MovieDetail) => {
 
       if (rating.Source === "Internet Movie Database") {
         source = "IMDb";
-        value = parseFloat(rating.Value.split("/")[0]) * 10;
+        // IMDb is already on a 0-10 scale
+        value = parseFloat(rating.Value.split("/")[0]);
       } else if (rating.Source === "Rotten Tomatoes") {
-        value = parseInt(rating.Value.replace("%", ""));
+        // Convert percentage to 0-10 scale
+        value = parseInt(rating.Value.replace("%", "")) / 10;
       } else if (rating.Source === "Metacritic") {
-        value = parseInt(rating.Value.split("/")[0]);
+        // Convert 0-100 to 0-10 scale
+        value = parseInt(rating.Value.split("/")[0]) / 10;
       }
 
       return {
@@ -46,7 +49,7 @@ export const generateRatingData = (movie: MovieDetail) => {
   ) {
     ratingsData.push({
       source: "IMDb",
-      value: parseFloat(movie.imdbRating) * 10,
+      value: parseFloat(movie.imdbRating),
       color: "#F5C518",
     });
   }

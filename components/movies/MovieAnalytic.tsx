@@ -27,16 +27,16 @@ const MovieAnalytic = ({ movie }: { movie: MovieDetail }) => {
                 },
               ],
             }}
-            width={width - 40}
+            width={width - 60}
             height={220}
             yAxisLabel=""
-            yAxisSuffix="%"
+            yAxisSuffix=""
             fromZero
             chartConfig={{
               backgroundColor: "#03071E",
               backgroundGradientFrom: "#370617",
               backgroundGradientTo: "#6A040F",
-              decimalPlaces: 0,
+              decimalPlaces: 1,
               color: (opacity = 1) => `rgba(255, 186, 8, ${opacity})`,
               labelColor: (opacity = 1) => `rgba(244, 140, 6, ${opacity})`,
               style: {
@@ -49,6 +49,20 @@ const MovieAnalytic = ({ movie }: { movie: MovieDetail }) => {
               borderRadius: 16,
             }}
           />
+          {/* Custom Legend */}
+          <View style={styles.legendContainer}>
+            <Text style={styles.legendTitle}>Rating Scale: 0-10</Text>
+            <View style={styles.legendItems}>
+              {ratingData.map((item, index) => (
+                <View key={index} style={styles.legendItem}>
+                  <View style={[styles.legendColor, { backgroundColor: item.color }]} />
+                  <Text style={styles.legendText}>
+                    {item.source}: {item.value.toFixed(1)}
+                  </Text>
+                </View>
+              ))}
+            </View>
+          </View>
         </View>
       )}
 
@@ -61,10 +75,10 @@ const MovieAnalytic = ({ movie }: { movie: MovieDetail }) => {
               name: d.genre,
               population: d.value,
               color: d.color,
-              legendFontColor: "#F48C06",
+              legendFontColor: "#FFFFFF",
               legendFontSize: 12,
             }))}
-            width={width - 40}
+            width={width - 60}
             height={220}
             chartConfig={{
               backgroundColor: "#03071E",
@@ -82,7 +96,7 @@ const MovieAnalytic = ({ movie }: { movie: MovieDetail }) => {
             paddingLeft="15"
             absolute
             hasLegend={true}
-            center={[width / 4, 0]}
+            center={[width / 140, 0]}
           />
         </View>
       )}
@@ -183,5 +197,35 @@ const styles = StyleSheet.create({
     color: "#FFFFFF",
     fontFamily: "Rubik-Bold",
     fontSize: 14,
+  },
+  legendContainer: {
+    padding: 16,
+  },
+  legendTitle: {
+    color: "#FFBA08",
+    fontFamily: "Rubik-Medium",
+    fontSize: 14,
+    marginBottom: 8,
+  },
+  legendItems: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+  },
+  legendItem: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginRight: 16,
+    marginBottom: 8,
+  },
+  legendColor: {
+    width: 12,
+    height: 12,
+    borderRadius: 6,
+    marginRight: 8,
+  },
+  legendText: {
+    color: "#FFFFFF",
+    fontFamily: "Rubik-Medium",
+    fontSize: 12,
   },
 });
