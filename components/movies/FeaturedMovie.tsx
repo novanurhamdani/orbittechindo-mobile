@@ -75,7 +75,7 @@ export default function FeaturedMovie() {
 
   return (
     <View className="my-2">
-      <Text className="text-xl font-rubik-semibold text-yellow mt-6 mb-2">
+      <Text className="text-xl font-rubik-semibold text-yellow mb-4">
         Featured Movies
       </Text>
 

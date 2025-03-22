@@ -12,7 +12,7 @@ export const FEATURED_MOVIES = [
 ];
 
 // Default search term
-export const DEFAULT_SEARCH = "Marvel";
+export const DEFAULT_SEARCH = "movie";
 
 // Year range for filter
 export const MIN_YEAR = 1900;

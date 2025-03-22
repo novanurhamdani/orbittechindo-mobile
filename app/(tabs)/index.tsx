@@ -1,9 +1,10 @@
 import React from "react";
-import { Image, ScrollView, View, Text } from "react-native";
+import { Image, View, Text } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { LinearGradient } from "expo-linear-gradient";
 import images from "@/constants/images";
 import FeaturedMovie from "@/components/movies/FeaturedMovie";
+import AllMovies from "@/components/movies/AllMovies";
 
 export default function Index() {
   return (
@@ -15,18 +16,25 @@ export default function Index() {
         end={{ x: 1, y: 1 }}
         className="flex-1 "
       >
-        <ScrollView
-          className="pt-12 px-4 pb-4"
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={{ minHeight: "100%", paddingBottom: 10 }}
-        >
-          <View className="flex flex-row items-center justify-center">
-            <Image source={images.logo} className="w-14 h-14" />
-            <Text className="text-orange text-3xl font-semibold">MovieNov</Text>
-          </View>
+        <AllMovies
+          ListHeaderComponent={
+            <View className="pt-12 pb-4">
+              {/* Logo */}
+              <View className="flex flex-row items-center justify-center mb-4">
+                <Image source={images.logo} className="w-14 h-14" />
+                <Text className="text-orange text-3xl font-semibold">
+                  MovieNov
+                </Text>
+              </View>
 
-          <FeaturedMovie />
-        </ScrollView>
+              {/* Featured Movie */}
+              <FeaturedMovie />
+              <Text className="text-xl font-rubik-semibold text-white mb-4">
+                Latest Movies
+              </Text>
+            </View>
+          }
+        />
       </LinearGradient>
     </View>
   );
