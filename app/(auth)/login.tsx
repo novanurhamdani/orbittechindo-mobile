@@ -47,7 +47,7 @@ export default function Login() {
       });
 
       if (success) {
-        router.replace("/");
+        router.replace("/(tabs)");
       } else {
         setError("Invalid email or password. Please try again.");
       }

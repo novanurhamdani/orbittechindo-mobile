@@ -51,7 +51,7 @@ export default function Register() {
       });
 
       if (success) {
-        router.replace("/");
+        router.replace("/(tabs)");
       } else {
         setError("Registration failed. Please try again.");
       }
