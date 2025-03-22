@@ -91,6 +91,13 @@ export default function Login() {
                 <Text className="text-lg font-rubik-medium text-light-orange">
                   Sign in to your account
                 </Text>
+
+                <Text className="text-md font-rubik-medium text-white mt-2">
+                  Demo Account
+                </Text>
+                <Text className="text-sm font-rubik-medium text-white">
+                  user: test@example.com | pass: Password123
+                </Text>
               </View>
 
               {error && (
