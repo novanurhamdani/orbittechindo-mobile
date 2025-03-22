@@ -1,35 +1,33 @@
 import React from "react";
-import { Text, View, TouchableOpacity } from "react-native";
-import { Link, useRouter } from "expo-router";
-import { useAuthStore } from "../../store/authStore";
+import { Image, ScrollView, View, Text } from "react-native";
 import { StatusBar } from "expo-status-bar";
+import { LinearGradient } from "expo-linear-gradient";
+import images from "@/constants/images";
+import FeaturedMovie from "@/components/movies/FeaturedMovie";
 
 export default function Index() {
-  const router = useRouter();
-  const { logout, user } = useAuthStore();
-
-  const handleLogout = async () => {
-    await logout();
-    router.replace("/login");
-  };
-
   return (
-    <View className="flex-1 justify-center items-center bg-white">
-      <StatusBar style="dark" />
-      <Link href="/movie/avengers">Featured</Link>
-      <Text className="text-2xl font-bold text-blue-600 mb-4">
-        Welcome to Movie App
-      </Text>
-      {user && (
-        <Text className="text-lg text-gray-600 mb-8">Hello, {user.name}</Text>
-      )}
-
-      <TouchableOpacity
-        className="bg-blue-600 py-3 px-6 rounded-lg"
-        onPress={handleLogout}
+    <View className="flex-1 bg-dark-blue">
+      <StatusBar style="light" />
+      <LinearGradient
+        colors={["#03071E", "#370617", "#6A040F"]}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 1 }}
+        className="flex-1 "
       >
-        <Text className="text-white font-semibold">Logout</Text>
-      </TouchableOpacity>
+        <ScrollView
+          className="pt-12 px-4 pb-4"
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{ minHeight: "100%", paddingBottom: 10 }}
+        >
+          <View className="flex flex-row items-center justify-center">
+            <Image source={images.logo} className="w-14 h-14" />
+            <Text className="text-orange text-3xl font-semibold">MovieNov</Text>
+          </View>
+
+          <FeaturedMovie />
+        </ScrollView>
+      </LinearGradient>
     </View>
   );
 }
