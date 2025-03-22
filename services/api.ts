@@ -49,22 +49,19 @@ api.interceptors.response.use(
 );
 
 // API functions
-export const searchMovies = async (
-  searchTerm: string,
-  page: number = 1,
-  type?: string,
-  year?: string
-): Promise<SearchResponse> => {
-  const params: Record<string, string> = {
-    s: searchTerm,
-    page: page.toString(),
-  };
-
-  if (type) params.type = type;
-  if (year) params.y = year;
-
-  const response = await api.get("", { params });
-  return response.data;
+export const searchMovies = async (searchTerm: string, page: number = 1): Promise<SearchResponse> => {
+  try {
+    const response = await api.get('', {
+      params: {
+        s: searchTerm || 'movie',
+        page: page
+      }
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error searching movies:', error);
+    throw error;
+  }
 };
 
 export const getMovieById = async (id: string): Promise<MovieDetail> => {

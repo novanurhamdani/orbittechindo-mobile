@@ -5,8 +5,8 @@ import {
   TextInput,
   TouchableOpacity,
   FlatList,
-  Image,
   ActivityIndicator,
+  StyleSheet,
 } from "react-native";
 import { useRouter } from "expo-router";
 import { StatusBar } from "expo-status-bar";
@@ -14,6 +14,8 @@ import { LinearGradient } from "expo-linear-gradient";
 import { Ionicons } from "@expo/vector-icons";
 import { searchMovies } from "@/services/api";
 import { Movie } from "@/types/movie";
+import MovieCard from "@/components/movies/MovieCard";
+import Pagination from "@/components/pagination/Pagination";
 
 const Search = () => {
   const router = useRouter();
@@ -21,65 +23,39 @@ const Search = () => {
   const [results, setResults] = useState<Movie[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalResults, setTotalResults] = useState(0);
+  const [totalPages, setTotalPages] = useState(0);
 
-  const handleSearch = async () => {
+  const handleSearch = async (page = 1) => {
     if (!searchTerm.trim()) return;
 
     setLoading(true);
     setError(null);
+    setCurrentPage(page);
 
     try {
-      const response = await searchMovies(searchTerm);
+      const response = await searchMovies(searchTerm, page);
       if (response.Response === "True") {
         setResults(response.Search);
+        setTotalResults(parseInt(response.totalResults));
+        setTotalPages(Math.ceil(parseInt(response.totalResults) / 10));
       } else {
         setError("No results found");
         setResults([]);
+        setTotalResults(0);
+        setTotalPages(0);
       }
     } catch (err) {
       console.error("Search error:", err);
       setError("An error occurred during search");
       setResults([]);
+      setTotalResults(0);
+      setTotalPages(0);
     } finally {
       setLoading(false);
     }
   };
-
-  const handleMoviePress = async (movie: Movie) => {
-    router.push({
-      pathname: "/movie/[id]",
-      params: { id: movie.imdbID },
-    } as any);
-  };
-
-  const renderMovieItem = ({ item }: { item: Movie }) => (
-    <TouchableOpacity
-      className="flex-row bg-dark-blue bg-opacity-40 rounded-lg p-2 mb-3"
-      onPress={() => handleMoviePress(item)}
-    >
-      <Image
-        source={{
-          uri:
-            item.Poster !== "N/A"
-              ? item.Poster
-              : "https://via.placeholder.com/100x150?text=No+Poster",
-        }}
-        className="w-20 h-28 rounded-md"
-        resizeMode="cover"
-      />
-      <View className="ml-3 flex-1 justify-center">
-        <Text
-          className="text-yellow font-rubik-medium text-base"
-          numberOfLines={2}
-        >
-          {item.Title}
-        </Text>
-        <Text className="text-light-orange font-rubik text-sm">
-          {item.Year} • {item.Type}
-        </Text>
-      </View>
-    </TouchableOpacity>
-  );
 
   return (
     <View className="flex-1 bg-dark-blue mb-10">
@@ -110,12 +86,12 @@ const Search = () => {
               value={searchTerm}
               onChangeText={setSearchTerm}
               returnKeyType="search"
-              onSubmitEditing={handleSearch}
+              onSubmitEditing={() => handleSearch(1)}
               autoFocus
             />
             <TouchableOpacity
               className="bg-orange px-4 rounded-r-lg justify-center"
-              onPress={handleSearch}
+              onPress={() => handleSearch(1)}
             >
               <Ionicons name="search" size={20} color="#fff" />
             </TouchableOpacity>
@@ -138,19 +114,41 @@ const Search = () => {
               </Text>
               <TouchableOpacity
                 className="bg-orange-red px-4 py-2 rounded-lg mt-2"
-                onPress={handleSearch}
+                onPress={() => handleSearch(1)}
               >
                 <Text className="text-white font-rubik">Try Again</Text>
               </TouchableOpacity>
             </View>
           ) : results.length > 0 ? (
-            <FlatList
-              data={results}
-              renderItem={renderMovieItem}
-              keyExtractor={(item) => item.imdbID}
-              showsVerticalScrollIndicator={false}
-              contentContainerStyle={{ paddingVertical: 10 }}
-            />
+            <>
+              {/* Results count */}
+              <View style={styles.resultsHeader}>
+                <Text style={styles.resultsCount}>
+                  {totalResults} results found
+                </Text>
+                <Text style={styles.pageIndicator}>
+                  Page {currentPage} of {totalPages}
+                </Text>
+              </View>
+
+              <FlatList
+                data={results}
+                renderItem={({ item }) => <MovieCard item={item as Movie} />}
+                keyExtractor={(item) => item.imdbID}
+                numColumns={2}
+                key={`flatlist-columns-${2}`}
+                showsVerticalScrollIndicator={false}
+                contentContainerStyle={styles.listContainer}
+                columnWrapperStyle={styles.columnWrapper}
+                ListFooterComponent={() => (
+                  <Pagination
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    onSearch={handleSearch}
+                  />
+                )}
+              />
+            </>
           ) : (
             <View className="flex-1 justify-center items-center">
               <Ionicons name="search-outline" size={64} color="#F48C0640" />
@@ -166,3 +164,29 @@ const Search = () => {
 };
 
 export default Search;
+
+const styles = StyleSheet.create({
+  listContainer: {
+    paddingBottom: 20,
+    marginBottom: 50,
+  },
+  columnWrapper: {
+    justifyContent: "space-between",
+  },
+  resultsHeader: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: 12,
+  },
+  resultsCount: {
+    color: "#FFBA08",
+    fontFamily: "Rubik-Medium",
+    fontSize: 14,
+  },
+  pageIndicator: {
+    color: "#F48C06",
+    fontFamily: "Rubik-Regular",
+    fontSize: 12,
+  },
+});

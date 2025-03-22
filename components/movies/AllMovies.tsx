@@ -146,6 +146,7 @@ const styles = StyleSheet.create({
     padding: 16,
     alignItems: "center",
     justifyContent: "center",
+    marginBottom: 16,
   },
   loadingText: {
     color: "#F48C06",
