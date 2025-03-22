@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import {
   View,
   Text,
@@ -8,7 +8,7 @@ import {
   ActivityIndicator,
   StyleSheet,
 } from "react-native";
-import { useRouter } from "expo-router";
+import { useFocusEffect, useRouter } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { LinearGradient } from "expo-linear-gradient";
 import { Ionicons } from "@expo/vector-icons";
@@ -56,6 +56,17 @@ const Search = () => {
       setLoading(false);
     }
   };
+
+  useFocusEffect(
+    useCallback(() => {
+      setSearchTerm("");
+      setResults([]);
+      setError(null);
+      setCurrentPage(1);
+      setTotalResults(0);
+      setTotalPages(0);
+    }, [])
+  );
 
   return (
     <View className="flex-1 bg-dark-blue mb-10">

@@ -10,16 +10,30 @@ import React from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import { Movie } from "@/types/movie";
 import { useRouter } from "expo-router";
+import { Ionicons } from "@expo/vector-icons";
+import { useFavoritesStore } from "@/store/favoritesStore";
 
 const { width } = Dimensions.get("window");
 const CARD_WIDTH = width * 0.44;
 
 const MovieCard = ({ item }: { item: Movie }) => {
   const router = useRouter();
+  const { addFavorite, removeFavorite, isFavorite } = useFavoritesStore();
+  const isMovieFavorite = isFavorite(item.imdbID);
 
   const handleMoviePress = (movie: Movie) => {
     router.push(`/movie/${movie.imdbID}`);
   };
+
+  const toggleFavorite = (e: any) => {
+    e.stopPropagation();
+    if (isMovieFavorite) {
+      removeFavorite(item.imdbID);
+    } else {
+      addFavorite(item);
+    }
+  };
+
   return (
     <TouchableOpacity
       style={styles.cardContainer}
@@ -40,6 +54,17 @@ const MovieCard = ({ item }: { item: Movie }) => {
           style={styles.poster}
           resizeMode="cover"
         />
+        <TouchableOpacity 
+          style={styles.favoriteButton}
+          onPress={toggleFavorite}
+          activeOpacity={0.7}
+        >
+          <Ionicons 
+            name={isMovieFavorite ? "heart" : "heart-outline"} 
+            size={22} 
+            color={isMovieFavorite ? "#D00000" : "#FFBA08"} 
+          />
+        </TouchableOpacity>
         <LinearGradient
           colors={["transparent", "rgba(3, 7, 30, 0.7)", "rgba(3, 7, 30, 0.9)"]}
           style={styles.overlay}
@@ -102,28 +127,32 @@ const styles = StyleSheet.create({
     padding: 12,
   },
   title: {
-    color: "#FFBA08",
-    fontFamily: "Rubik-Medium",
+    color: "#FFFFFF",
     fontSize: 14,
-    marginBottom: 4,
-  },
-  year: {
-    color: "#F48C06",
-    fontFamily: "Rubik-Regular",
-    fontSize: 12,
+    fontFamily: "Rubik-Medium",
     marginBottom: 4,
   },
   yearContainer: {
-    backgroundColor: "rgba(232, 93, 4, 0.3)",
-    paddingHorizontal: 8,
-    paddingVertical: 2,
-    borderRadius: 4,
-    alignSelf: "flex-start",
+    flexDirection: "row",
+    alignItems: "center",
   },
   type: {
-    color: "#FAA307",
+    color: "#F48C06",
+    fontSize: 12,
     fontFamily: "Rubik-Regular",
-    fontSize: 10,
-    textTransform: "capitalize",
+  },
+  favoriteButton: {
+    position: "absolute",
+    top: 8,
+    right: 8,
+    backgroundColor: "rgba(3, 7, 30, 0.6)",
+    borderRadius: 20,
+    width: 36,
+    height: 36,
+    justifyContent: "center",
+    alignItems: "center",
+    zIndex: 10,
+    borderWidth: 1,
+    borderColor: "rgba(255, 255, 255, 0.1)",
   },
 });
