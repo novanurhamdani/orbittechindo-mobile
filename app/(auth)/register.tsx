@@ -10,9 +10,9 @@ import {
 import { useRouter } from "expo-router";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useAuthStore } from "../../store/authStore";
-import Input from "../../components/ui/Input";
-import Button from "../../components/ui/Button";
+import { useAuthStore } from "@/store/authStore";
+import Input from "@/components/ui/Input";
+import Button from "@/components/ui/Button";
 import { RegisterFormData, registerSchema } from "@/types/user";
 import { LinearGradient } from "expo-linear-gradient";
 
@@ -38,7 +38,7 @@ export default function Register() {
 
   const onSubmit = async (data: RegisterFormData) => {
     if (loading) return;
-    
+
     setLoading(true);
     setError(null);
 
@@ -76,7 +76,8 @@ export default function Register() {
       >
         <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
           <View className="flex-1 justify-center p-6">
-            <View className="p-6 rounded-2xl bg-dark-blue bg-opacity-40"
+            <View
+              className="p-6 rounded-2xl bg-dark-blue bg-opacity-40"
               style={{
                 shadowColor: "#000",
                 shadowOffset: { width: 0, height: 10 },
@@ -145,9 +146,13 @@ export default function Register() {
               />
 
               <View className="flex-row justify-center mt-6">
-                <Text className="text-light-orange font-rubik">Already have an account? </Text>
-                <TouchableOpacity onPress={() => router.push("/login")}>
-                  <Text className="text-yellow font-rubik-semibold">Sign In</Text>
+                <Text className="text-light-orange font-rubik">
+                  Already have an account?{" "}
+                </Text>
+                <TouchableOpacity onPress={() => router.push("/(auth)/login")}>
+                  <Text className="text-yellow font-rubik-semibold">
+                    Sign In
+                  </Text>
                 </TouchableOpacity>
               </View>
             </View>

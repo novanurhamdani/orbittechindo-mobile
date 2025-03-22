@@ -10,9 +10,9 @@ import {
 import { useRouter } from "expo-router";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useAuthStore } from "../../store/authStore";
-import Input from "../../components/ui/Input";
-import Button from "../../components/ui/Button";
+import { useAuthStore } from "@/store/authStore";
+import Input from "@/components/ui/Input";
+import Button from "@/components/ui/Button";
 import { LoginFormData, loginSchema } from "@/types/user";
 import { LinearGradient } from "expo-linear-gradient";
 
@@ -129,7 +129,9 @@ export default function Login() {
                 <Text className="text-light-orange font-rubik">
                   Don't have an account?{" "}
                 </Text>
-                <TouchableOpacity onPress={() => router.push("/register")}>
+                <TouchableOpacity
+                  onPress={() => router.push("/(auth)/register")}
+                >
                   <Text className="text-yellow font-rubik-semibold">
                     Sign Up
                   </Text>
