@@ -23,17 +23,19 @@ const Profile = () => {
         end={{ x: 1, y: 1 }}
         className="flex-1 "
       >
-        <Text className="text-2xl font-bold text-blue-600 mb-4">Profile</Text>
-        {user && (
-          <Text className="text-lg text-gray-600 mb-8">Hello, {user.name}</Text>
-        )}
+        <View className="flex-1 justify-center items-center">
+          <Text className="text-2xl font-bold text-yellow mb-4">Profile</Text>
+          {user && (
+            <Text className="text-lg text-yellow mb-8">Hello, {user.name}</Text>
+          )}
 
-        <TouchableOpacity
-          className="bg-blue-600 py-3 px-6 rounded-lg"
-          onPress={handleLogout}
-        >
-          <Text className="text-white font-semibold">Logout</Text>
-        </TouchableOpacity>
+          <TouchableOpacity
+            className="bg-orange py-3 px-6 rounded-lg"
+            onPress={handleLogout}
+          >
+            <Text className="text-white font-semibold">Logout</Text>
+          </TouchableOpacity>
+        </View>
       </LinearGradient>
     </View>
   );
