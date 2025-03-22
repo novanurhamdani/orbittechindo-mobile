@@ -16,12 +16,21 @@ import { useFavoritesStore } from "@/store/favoritesStore";
 const { width } = Dimensions.get("window");
 const CARD_WIDTH = width * 0.44;
 
-const MovieCard = ({ item }: { item: Movie }) => {
+type MovieCardProps = {
+  item: Movie;
+  onNavigate?: () => void;
+};
+
+const MovieCard = ({ item, onNavigate }: MovieCardProps) => {
   const router = useRouter();
   const { addFavorite, removeFavorite, isFavorite } = useFavoritesStore();
   const isMovieFavorite = isFavorite(item.imdbID);
 
   const handleMoviePress = (movie: Movie) => {
+    // Call the onNavigate callback if provided
+    if (onNavigate) {
+      onNavigate();
+    }
     router.push(`/movie/${movie.imdbID}`);
   };
 
@@ -54,15 +63,15 @@ const MovieCard = ({ item }: { item: Movie }) => {
           style={styles.poster}
           resizeMode="cover"
         />
-        <TouchableOpacity 
+        <TouchableOpacity
           style={styles.favoriteButton}
           onPress={toggleFavorite}
           activeOpacity={0.7}
         >
-          <Ionicons 
-            name={isMovieFavorite ? "heart" : "heart-outline"} 
-            size={22} 
-            color={isMovieFavorite ? "#D00000" : "#FFBA08"} 
+          <Ionicons
+            name={isMovieFavorite ? "heart" : "heart-outline"}
+            size={22}
+            color={isMovieFavorite ? "#D00000" : "#FFBA08"}
           />
         </TouchableOpacity>
         <LinearGradient
