@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   ActivityIndicator,
   StyleSheet,
+  Share,
 } from "react-native";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { StatusBar } from "expo-status-bar";
@@ -14,6 +15,9 @@ import { LinearGradient } from "expo-linear-gradient";
 import { Ionicons } from "@expo/vector-icons";
 import { getMovieById } from "../../services/api";
 import { MovieDetail } from "../../types/movie";
+import { useFavoritesStore } from "@/store/favoritesStore";
+import MovieDetailInfo from "@/components/movies/MovieDetailInfo";
+import MovieAnalytic from "@/components/movies/MovieAnalytic";
 
 export default function MovieDetailScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -21,6 +25,39 @@ export default function MovieDetailScreen() {
   const [movie, setMovie] = useState<MovieDetail | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [activeTab, setActiveTab] = useState<"info" | "charts">("info");
+  const { addFavorite, removeFavorite, isFavorite } = useFavoritesStore();
+
+  const isMovieFavorite = id ? isFavorite(id) : false;
+
+  const toggleFavorite = () => {
+    if (!movie) return;
+
+    if (isMovieFavorite) {
+      removeFavorite(movie.imdbID);
+    } else {
+      addFavorite({
+        imdbID: movie.imdbID,
+        Title: movie.Title,
+        Year: movie.Year,
+        Type: movie.Type || "movie",
+        Poster: movie.Poster,
+      });
+    }
+  };
+
+  const shareMovie = async () => {
+    if (!movie) return;
+
+    try {
+      await Share.share({
+        message: `Check out this movie: ${movie.Title} (${movie.Year}) - IMDb Rating: ${movie.imdbRating}/10`,
+        title: movie.Title,
+      });
+    } catch (error) {
+      console.error("Error sharing movie:", error);
+    }
+  };
 
   useEffect(() => {
     const fetchMovieDetails = async () => {
@@ -81,7 +118,7 @@ export default function MovieDetailScreen() {
       <StatusBar style="light" />
 
       {/* Movie Poster Header */}
-      <View className="h-72">
+      <View className="h-80">
         <Image
           source={{
             uri:
@@ -103,6 +140,24 @@ export default function MovieDetailScreen() {
             >
               <Ionicons name="arrow-back" size={24} color="#F48C06" />
             </TouchableOpacity>
+            <View className="flex-row">
+              <TouchableOpacity
+                className="p-2 bg-dark-blue bg-opacity-50 rounded-full mr-2"
+                onPress={toggleFavorite}
+              >
+                <Ionicons
+                  name={isMovieFavorite ? "heart" : "heart-outline"}
+                  size={24}
+                  color={isMovieFavorite ? "#D00000" : "#F48C06"}
+                />
+              </TouchableOpacity>
+              <TouchableOpacity
+                className="p-2 bg-dark-blue bg-opacity-50 rounded-full"
+                onPress={shareMovie}
+              >
+                <Ionicons name="share-outline" size={24} color="#F48C06" />
+              </TouchableOpacity>
+            </View>
           </View>
         </LinearGradient>
       </View>
@@ -112,85 +167,77 @@ export default function MovieDetailScreen() {
         colors={["#03071E", "#370617", "#6A040F"]}
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 1 }}
-        className="flex-1 -mt-10 rounded-t-3xl"
+        className="flex-1 -mt-12 rounded-t-3xl"
       >
-        <ScrollView className="flex-1 pt-6 px-4">
-          <Text className="text-2xl font-rubik-bold text-yellow mb-1">
-            {movie.Title}
-          </Text>
+        {/* Tabs */}
+        <View style={styles.tabContainer}>
+          <TouchableOpacity
+            style={[styles.tab, activeTab === "info" && styles.activeTab]}
+            onPress={() => setActiveTab("info")}
+          >
+            <Text
+              style={[
+                styles.tabText,
+                activeTab === "info" && styles.activeTabText,
+              ]}
+            >
+              Info
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[styles.tab, activeTab === "charts" && styles.activeTab]}
+            onPress={() => setActiveTab("charts")}
+          >
+            <Text
+              style={[
+                styles.tabText,
+                activeTab === "charts" && styles.activeTabText,
+              ]}
+            >
+              Analytics
+            </Text>
+          </TouchableOpacity>
+        </View>
 
-          <View className="flex-row flex-wrap mb-4">
-            <Text className="text-light-orange font-rubik mr-2">
-              {movie.Year}
-            </Text>
-            <Text className="text-light-orange font-rubik mr-2">•</Text>
-            <Text className="text-light-orange font-rubik mr-2">
-              {movie.Runtime}
-            </Text>
-            <Text className="text-light-orange font-rubik mr-2">•</Text>
-            <Text className="text-light-orange font-rubik">{movie.Rated}</Text>
-          </View>
-
-          <View className="flex-row items-center mb-4">
-            <View className="bg-gold px-2 py-1 rounded mr-3">
-              <Text className="text-dark-blue font-rubik-bold">IMDb</Text>
-            </View>
-            <Text className="text-yellow font-rubik-medium">
-              {movie.imdbRating}/10
-            </Text>
-          </View>
-
-          <View className="mb-4">
-            <Text className="text-lg font-rubik-medium text-yellow mb-2">
-              Overview
-            </Text>
-            <Text className="text-white font-rubik leading-5">
-              {movie.Plot}
-            </Text>
-          </View>
-
-          <View className="mb-4">
-            <Text className="text-lg font-rubik-medium text-yellow mb-2">
-              Genre
-            </Text>
-            <View className="flex-row flex-wrap">
-              {movie.Genre.split(", ").map((genre, index) => (
-                <View
-                  key={index}
-                  className="bg-dark-blue bg-opacity-40 px-3 py-1 rounded-full mr-2 mb-2"
-                >
-                  <Text className="text-light-orange font-rubik">{genre}</Text>
-                </View>
-              ))}
-            </View>
-          </View>
-
-          <View className="mb-4">
-            <Text className="text-lg font-rubik-medium text-yellow mb-2">
-              Cast
-            </Text>
-            <Text className="text-white font-rubik">{movie.Actors}</Text>
-          </View>
-
-          <View className="mb-4">
-            <Text className="text-lg font-rubik-medium text-yellow mb-2">
-              Director
-            </Text>
-            <Text className="text-white font-rubik">{movie.Director}</Text>
-          </View>
-
-          {movie.Awards !== "N/A" && (
-            <View className="mb-4">
-              <Text className="text-lg font-rubik-medium text-yellow mb-2">
-                Awards
-              </Text>
-              <Text className="text-white font-rubik">{movie.Awards}</Text>
-            </View>
+        <ScrollView className="flex-1 pt-4 px-4">
+          {activeTab === "info" ? (
+            // Info Tab Content
+            <MovieDetailInfo movie={movie} />
+          ) : (
+            // Charts Tab Content
+            <MovieAnalytic movie={movie} />
           )}
 
-          <View className="h-10" />
+          <View className="h-20" />
         </ScrollView>
       </LinearGradient>
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  tabContainer: {
+    flexDirection: "row",
+    marginTop: 8,
+    paddingHorizontal: 16,
+    marginBottom: 4,
+  },
+  tab: {
+    flex: 1,
+    paddingVertical: 10,
+    alignItems: "center",
+    borderBottomWidth: 2,
+    borderBottomColor: "transparent",
+  },
+  activeTab: {
+    borderBottomColor: "#E85D04",
+  },
+  tabText: {
+    color: "#F48C06",
+    fontFamily: "Rubik-Medium",
+    fontSize: 16,
+  },
+  activeTabText: {
+    color: "#FFBA08",
+  },
+});
