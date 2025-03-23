@@ -88,7 +88,7 @@ export default function Register() {
                 borderColor: "rgba(255, 255, 255, 0.1)",
               }}
             >
-              <View className="mb-8 items-center">
+              <View className="mb-8">
                 <Text className="text-3xl font-rubik-bold text-yellow mb-2">
                   Movie App
                 </Text>

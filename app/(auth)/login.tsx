@@ -84,7 +84,7 @@ export default function Login() {
                 borderColor: "rgba(255, 255, 255, 0.1)",
               }}
             >
-              <View className="mb-8 items-center">
+              <View className="mb-8 justify-center">
                 <Text className="text-3xl font-rubik-bold text-yellow mb-2">
                   Movie App
                 </Text>
@@ -92,12 +92,14 @@ export default function Login() {
                   Sign in to your account
                 </Text>
 
-                <Text className="text-md font-rubik-medium text-white mt-2">
-                  Demo Account
-                </Text>
-                <Text className="text-sm font-rubik-medium text-white">
-                  user: test@example.com | pass: Password123
-                </Text>
+                <View>
+                  <Text className="text-md font-rubik text-white mt-2">
+                    Demo Account
+                  </Text>
+                  <Text className="text-sm font-rubik-light text-white">
+                    u: test@example.com | p: Password123
+                  </Text>
+                </View>
               </View>
 
               {error && (
