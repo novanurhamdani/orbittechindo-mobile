@@ -98,9 +98,11 @@ export default function AllMovies({
     if (!loading || refreshing) return null;
 
     return (
-      <View style={styles.footerContainer}>
+      <View className="p-4 flex items-center justify-center mb-4">
         <ActivityIndicator size="large" color="#E85D04" />
-        <Text style={styles.loadingText}>Loading more movies...</Text>
+        <Text className="text-light-orange font-rubik mt-2">
+          Loading more movies...
+        </Text>
       </View>
     );
   };
@@ -109,12 +111,15 @@ export default function AllMovies({
     if (loading && !refreshing) return null;
 
     return (
-      <View style={styles.emptyContainer}>
-        <Text style={styles.emptyText}>
+      <View className="p-5 flex items-center justify-center">
+        <Text className="text-light-orange font-rubik text-center mb-4">
           {error ? `Error: ${error}` : "No movies found"}
         </Text>
-        <TouchableOpacity style={styles.retryButton} onPress={handleRefresh}>
-          <Text style={styles.retryText}>Try Again</Text>
+        <TouchableOpacity
+          className="bg-orange px-4 py-2 rounded-lg"
+          onPress={handleRefresh}
+        >
+          <Text className="text-white font-rubik">Try Again</Text>
         </TouchableOpacity>
       </View>
     );
@@ -124,7 +129,7 @@ export default function AllMovies({
     return (
       <>
         {ListHeaderComponent}
-        <View style={styles.filterContainer}>
+        <View className="mb-5 flex flex-row justify-between items-center">
           <Text className="text-xl font-rubik-semibold text-white mb-4">
             Latest Movies
           </Text>
@@ -138,7 +143,7 @@ export default function AllMovies({
   };
 
   return (
-    <View style={styles.container}>
+    <View className="my-4 px-4">
       <FlatList
         data={searchResults}
         renderItem={({ item }) => <MovieCard item={item as Movie} />}
@@ -160,53 +165,11 @@ export default function AllMovies({
 }
 
 const styles = StyleSheet.create({
-  container: {
-    marginVertical: 16,
-    paddingHorizontal: 16,
-  },
   listContainer: {
     paddingBottom: 20,
     marginBottom: 50,
   },
   columnWrapper: {
     justifyContent: "space-between",
-  },
-  footerContainer: {
-    padding: 16,
-    alignItems: "center",
-    justifyContent: "center",
-    marginBottom: 16,
-  },
-  loadingText: {
-    color: "#F48C06",
-    fontFamily: "Rubik-Regular",
-    marginTop: 8,
-  },
-  emptyContainer: {
-    padding: 20,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  emptyText: {
-    color: "#F48C06",
-    fontFamily: "Rubik-Medium",
-    textAlign: "center",
-    marginBottom: 16,
-  },
-  retryButton: {
-    backgroundColor: "#E85D04",
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-    borderRadius: 8,
-  },
-  retryText: {
-    color: "#FFFFFF",
-    fontFamily: "Rubik-Medium",
-  },
-  filterContainer: {
-    marginBottom: 20,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
   },
 });

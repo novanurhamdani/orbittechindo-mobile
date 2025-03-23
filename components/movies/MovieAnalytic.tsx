@@ -55,7 +55,12 @@ const MovieAnalytic = ({ movie }: { movie: MovieDetail }) => {
             <View style={styles.legendItems}>
               {ratingData.map((item, index) => (
                 <View key={index} style={styles.legendItem}>
-                  <View style={[styles.legendColor, { backgroundColor: item.color }]} />
+                  <View
+                    style={[
+                      styles.legendColor,
+                      { backgroundColor: item.color },
+                    ]}
+                  />
                   <Text style={styles.legendText}>
                     {item.source}: {item.value.toFixed(1)}
                   </Text>

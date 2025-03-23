@@ -48,12 +48,12 @@ const Favorites = () => {
               columnWrapperStyle={styles.columnWrapper}
             />
           ) : (
-            <View style={styles.emptyContainer}>
+            <View className="flex-1 justify-center items-center p-20">
               <Ionicons name="heart-outline" size={64} color="#F48C0640" />
-              <Text style={styles.emptyText}>
+              <Text className="text-yellow font-rubik-medium text-[16px]  text-center mt-4">
                 You haven't added any favorites yet
               </Text>
-              <Text style={styles.emptySubText}>
+              <Text className="text-light-orange font-rubik text-center mt-2 opacity-80">
                 Tap the heart icon on a movie to add it to your favorites
               </Text>
             </View>
@@ -72,26 +72,5 @@ const styles = StyleSheet.create({
   },
   columnWrapper: {
     justifyContent: "space-between",
-  },
-  emptyContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    padding: 24,
-  },
-  emptyText: {
-    color: "#FFBA08",
-    fontFamily: "Rubik-Medium",
-    fontSize: 16,
-    textAlign: "center",
-    marginTop: 16,
-  },
-  emptySubText: {
-    color: "#F48C06",
-    fontFamily: "Rubik-Regular",
-    fontSize: 14,
-    textAlign: "center",
-    marginTop: 8,
-    opacity: 0.8,
   },
 });

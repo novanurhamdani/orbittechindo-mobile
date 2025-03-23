@@ -22,7 +22,7 @@ export default function Index() {
               {/* Logo */}
               <View className="flex flex-row items-center justify-center mb-4">
                 <Image source={images.logo} className="w-14 h-14" />
-                <Text className="text-orange text-3xl font-semibold">
+                <Text className="text-orange font-rubik-bold tracking-wider text-3xl font-semibold">
                   MovieNov
                 </Text>
               </View>

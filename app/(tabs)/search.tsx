@@ -32,7 +32,7 @@ const Search = () => {
     type: "All",
     year: "All",
   });
-  
+
   // Track if we're navigating to a movie detail page
   const navigatingToDetail = useRef(false);
   const previousRouteRef = useRef("");
@@ -50,7 +50,7 @@ const Search = () => {
       setTotalResults(0);
       setTotalPages(0);
     }
-    
+
     if (setLoadingState) {
       setLoading(false);
     }
@@ -63,7 +63,7 @@ const Search = () => {
     setResults([]);
     setTotalResults(0);
     setTotalPages(0);
-    
+
     if (setLoadingState) {
       setLoading(false);
     }
@@ -110,19 +110,19 @@ const Search = () => {
 
   // Track navigation to movie detail
   useEffect(() => {
-    const unsubscribe = navigation.addListener('beforeRemove', (e: any) => {
+    const unsubscribe = navigation.addListener("beforeRemove", (e: any) => {
       // Check if we're navigating to a movie detail page
       // Use optional chaining and type assertion to safely access nested properties
       const action = e.data.action as any;
       const routes = action?.payload?.routes;
-      const currentRoute = routes && routes[0] ? routes[0].name : '';
-      
-      if (currentRoute.includes('movie/[id]')) {
+      const currentRoute = routes && routes[0] ? routes[0].name : "";
+
+      if (currentRoute.includes("movie/[id]")) {
         navigatingToDetail.current = true;
       } else {
         navigatingToDetail.current = false;
       }
-      
+
       previousRouteRef.current = currentRoute;
     });
 
@@ -133,12 +133,12 @@ const Search = () => {
   useFocusEffect(
     useCallback(() => {
       // If we're returning from a movie detail page, don't reset the search
-      if (previousRouteRef.current.includes('movie/[id]')) {
+      if (previousRouteRef.current.includes("movie/[id]")) {
         // Just update the previous route
         previousRouteRef.current = "";
         return;
       }
-      
+
       // Otherwise, reset everything
       setSearchTerm("");
       setResults([]);
@@ -171,8 +171,8 @@ const Search = () => {
         {/* Header */}
         <View className="pt-12 px-4 pb-4">
           <View className="flex-row items-center">
-            <TouchableOpacity 
-              className="mr-3" 
+            <TouchableOpacity
+              className="mr-3"
               onPress={() => {
                 navigatingToDetail.current = false;
                 router.back();
@@ -206,7 +206,7 @@ const Search = () => {
           </View>
 
           {/* Filter */}
-          <View style={styles.filterContainer}>
+          <View className="flex flex-row justify-end mt-4">
             <MovieFilter
               onApplyFilters={handleApplyFilters}
               currentFilters={filters}
@@ -238,11 +238,11 @@ const Search = () => {
           ) : results.length > 0 ? (
             <>
               {/* Results count */}
-              <View style={styles.resultsHeader}>
-                <Text style={styles.resultsCount}>
+              <View className="flex flex-row justify-between items-center mb-2">
+                <Text className="text-yellow font-rubik-medium">
                   {totalResults} results found
                 </Text>
-                <Text style={styles.pageIndicator}>
+                <Text className="text-light-orange font-rubik text-sm">
                   Page {currentPage} of {totalPages}
                 </Text>
               </View>
@@ -250,7 +250,7 @@ const Search = () => {
               <FlatList
                 data={results}
                 renderItem={({ item }) => (
-                  <MovieCard 
+                  <MovieCard
                     item={item as Movie}
                     onNavigate={() => {
                       // Set flag that we're going to movie detail
@@ -297,26 +297,5 @@ const styles = StyleSheet.create({
   },
   columnWrapper: {
     justifyContent: "space-between",
-  },
-  resultsHeader: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginBottom: 12,
-  },
-  resultsCount: {
-    color: "#FFBA08",
-    fontFamily: "Rubik-Medium",
-    fontSize: 14,
-  },
-  pageIndicator: {
-    color: "#F48C06",
-    fontFamily: "Rubik-Regular",
-    fontSize: 12,
-  },
-  filterContainer: {
-    marginTop: 12,
-    flexDirection: "row",
-    justifyContent: "flex-end",
   },
 });
